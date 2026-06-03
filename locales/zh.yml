@@ -144,8 +144,8 @@ tools:
     description: Git是一种去中心化的版本管理软件。使用此备忘单，您可以快速访问最常见的git命令.
 
   slugify-string:
-    title: 打乱字符串
-    description: 确保字符串 url、文件名和 id 安全。
+    title: 字符串 Slug 化
+    description: "将任意字符串转换为 URL、文件名和 HTML id 安全的格式（slug）。\n转换规则：空格/换行转为连字符、大写转小写、去除重音符号、删除特殊字符。"
 
   encryption:
     title: 加密/解密文本
