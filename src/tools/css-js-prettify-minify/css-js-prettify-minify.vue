@@ -41,7 +41,7 @@ function minifyCss(input: string): string {
 function minifyJs(input: string): string {
   return input
     .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/\/\/.*$/gm, '')
+    .replace(/\/\/[^\n]*/g, '')
     .replace(/\s+/g, ' ')
     .replace(/ ?([{}();,=:+\-*/<>!&|?]) ?/g, '$1')
     .trim();
