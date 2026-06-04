@@ -33,7 +33,7 @@ function minifyCss(input: string): string {
   return input
     .replace(/\/\*[\s\S]*?\*\//g, '')
     .replace(/\s+/g, ' ')
-    .replace(/\s*([{}:;,>~+])\s*/g, '$1')
+    .replace(/ ?([{}:;,>~+]) ?/g, '$1')
     .replace(/;}/g, '}')
     .trim();
 }
@@ -43,7 +43,7 @@ function minifyJs(input: string): string {
     .replace(/\/\*[\s\S]*?\*\//g, '')
     .replace(/\/\/.*$/gm, '')
     .replace(/\s+/g, ' ')
-    .replace(/\s*([{}();,=:+\-*/<>!&|?])\s*/g, '$1')
+    .replace(/ ?([{}();,=:+\-*/<>!&|?]) ?/g, '$1')
     .trim();
 }
 
