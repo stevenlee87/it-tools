@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@vue/runtime-core': 3.3.4
+
 importers:
 
   .:
