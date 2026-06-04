@@ -1,7 +1,12 @@
 import { tool as base64FileConverter } from './base64-file-converter';
 import { tool as base64StringConverter } from './base64-string-converter';
 import { tool as basicAuthGenerator } from './basic-auth-generator';
+import { tool as byteUnitConverter } from './byte-unit-converter';
+import { tool as cssJsPrettifyMinify } from './css-js-prettify-minify';
+import { tool as curlToCode } from './curl-to-code';
 import { tool as emailNormalizer } from './email-normalizer';
+import { tool as htmlToMarkdown } from './html-to-markdown';
+import { tool as jsonToTypes } from './json-to-types';
 
 import { tool as asciiTextDrawer } from './ascii-text-drawer';
 
@@ -116,6 +121,7 @@ export const toolsByCategory: ToolCategory[] = [
       xmlToJson,
       jsonToXml,
       markdownToHtml,
+      htmlToMarkdown,
     ],
   },
   {
@@ -160,6 +166,9 @@ export const toolsByCategory: ToolCategory[] = [
       emailNormalizer,
       regexTester,
       regexMemo,
+      curlToCode,
+      jsonToTypes,
+      cssJsPrettifyMinify,
     ],
   },
   {
@@ -172,7 +181,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Measurement',
-    components: [chronometer, temperatureConverter, benchmarkBuilder],
+    components: [chronometer, temperatureConverter, benchmarkBuilder, byteUnitConverter],
   },
   {
     name: 'Text',

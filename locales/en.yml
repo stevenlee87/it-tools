@@ -392,3 +392,23 @@ tools:
   text-to-binary:
     title: Text to ASCII binary
     description: Convert text to its ASCII binary representation and vice-versa.
+
+  html-to-markdown:
+    title: HTML to Markdown
+    description: Convert HTML to Markdown with this online converter.
+
+  byte-unit-converter:
+    title: Byte unit converter
+    description: Convert between data size units (bytes, KB, MB, GB, TB) in both decimal (SI) and binary (IEC) systems.
+
+  json-to-types:
+    title: JSON to TypeScript/Go
+    description: Generate TypeScript interfaces or Go structs from a JSON sample.
+
+  css-js-prettify-minify:
+    title: CSS/JS Prettify & Minify
+    description: Prettify or minify your CSS and JavaScript code online.
+
+  curl-to-code:
+    title: cURL to Code
+    description: Convert cURL commands to code in various programming languages.

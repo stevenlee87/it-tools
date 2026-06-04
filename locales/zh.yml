@@ -388,3 +388,23 @@ tools:
   text-to-binary:
     title: 文本到 ASCII 二进制
     description: 将文本转换为其 ASCII 二进制表示形式，反之亦然。
+
+  html-to-markdown:
+    title: HTML 转 Markdown
+    description: 使用此在线转换器将 HTML 转换为 Markdown。
+
+  byte-unit-converter:
+    title: 字节单位转换器
+    description: 在十进制（SI）和二进制（IEC）系统中转换数据大小单位（字节、KB、MB、GB、TB）。
+
+  json-to-types:
+    title: JSON 转 TypeScript/Go
+    description: 从 JSON 样本生成 TypeScript 接口或 Go 结构体。
+
+  css-js-prettify-minify:
+    title: CSS/JS 格式化与压缩
+    description: 在线格式化或压缩您的 CSS 和 JavaScript 代码。
+
+  curl-to-code:
+    title: cURL 转代码
+    description: 将 cURL 命令转换为多种编程语言的代码。
