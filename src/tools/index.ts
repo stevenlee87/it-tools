@@ -48,6 +48,7 @@ import { tool as ipv4SubnetCalculator } from './ipv4-subnet-calculator';
 import { tool as dockerRunToDockerComposeConverter } from './docker-run-to-docker-compose-converter';
 import { tool as htmlWysiwygEditor } from './html-wysiwyg-editor';
 import { tool as rsaKeyPairGenerator } from './rsa-key-pair-generator';
+import { tool as sslCertificateParser } from './ssl-certificate-parser';
 import { tool as textToNatoAlphabet } from './text-to-nato-alphabet';
 import { tool as slugifyString } from './slugify-string';
 import { tool as keycodeInfo } from './keycode-info';
@@ -96,7 +97,7 @@ import { tool as yamlViewer } from './yaml-viewer';
 export const toolsByCategory: ToolCategory[] = [
   {
     name: 'Crypto',
-    components: [tokenGenerator, hashText, bcrypt, uuidGenerator, ulidGenerator, cypher, bip39, hmacGenerator, rsaKeyPairGenerator, passwordStrengthAnalyser, pdfSignatureChecker],
+    components: [tokenGenerator, hashText, bcrypt, uuidGenerator, ulidGenerator, cypher, bip39, hmacGenerator, rsaKeyPairGenerator, passwordStrengthAnalyser, pdfSignatureChecker, sslCertificateParser],
   },
   {
     name: 'Converter',

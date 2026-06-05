@@ -9,7 +9,6 @@ binding = "ASSETS"
 html_handling = "auto-trailing-slash"
 not_found_handling = "single-page-application"
 
-# Uncomment after adding 85886688.xyz to Cloudflare:
-# [[routes]]
-# pattern = "it-tools.85886688.xyz"
-# custom_domain = true
+[[routes]]
+pattern = "it-tools.88586688.xyz"
+custom_domain = true
