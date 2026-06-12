@@ -1,17 +1,25 @@
-export const dnsRecordTypes = [
-  { label: 'A', value: 'A' },
-  { label: 'AAAA', value: 'AAAA' },
-  { label: 'CNAME', value: 'CNAME' },
-  { label: 'MX', value: 'MX' },
-  { label: 'TXT', value: 'TXT' },
-  { label: 'NS', value: 'NS' },
-  { label: 'SOA', value: 'SOA' },
-  { label: 'SRV', value: 'SRV' },
-  { label: 'CAA', value: 'CAA' },
-  { label: 'PTR', value: 'PTR' },
-] as const;
+export const defaultRecordTypes = ['A', 'AAAA', 'CNAME', 'MX', 'TXT', 'NS', 'SOA'] as const;
 
-export type DnsRecordType = typeof dnsRecordTypes[number]['value'];
+export const allRecordTypes = ['A', 'AAAA', 'CNAME', 'MX', 'TXT', 'NS', 'SOA', 'SRV', 'CAA', 'PTR'] as const;
+
+export type DnsRecordType = typeof allRecordTypes[number];
+
+const dnsTypeNumberToName: Record<number, string> = {
+  1: 'A',
+  2: 'NS',
+  5: 'CNAME',
+  6: 'SOA',
+  12: 'PTR',
+  15: 'MX',
+  16: 'TXT',
+  28: 'AAAA',
+  33: 'SRV',
+  257: 'CAA',
+};
+
+export function getTypeName(typeNumber: number): string {
+  return dnsTypeNumberToName[typeNumber] ?? `TYPE${typeNumber}`;
+}
 
 export interface DnsAnswer {
   name: string
@@ -32,20 +40,7 @@ export interface DnsResponse {
   Authority?: DnsAnswer[]
 }
 
-const dnsStatusCodes: Record<number, string> = {
-  0: 'NOERROR',
-  1: 'FORMERR',
-  2: 'SERVFAIL',
-  3: 'NXDOMAIN',
-  4: 'NOTIMP',
-  5: 'REFUSED',
-};
-
-export function getDnsStatusText(status: number): string {
-  return dnsStatusCodes[status] ?? `UNKNOWN (${status})`;
-}
-
-export async function queryDns({ domain, type }: { domain: string; type: DnsRecordType }): Promise<DnsResponse> {
+export async function queryDns({ domain, type }: { domain: string; type: string }): Promise<DnsResponse> {
   const url = `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(domain)}&type=${encodeURIComponent(type)}`;
 
   const response = await fetch(url, {
@@ -59,27 +54,37 @@ export async function queryDns({ domain, type }: { domain: string; type: DnsReco
   return response.json();
 }
 
+export async function queryAllDns(domain: string, types: readonly string[]): Promise<DnsAnswer[]> {
+  const results = await Promise.allSettled(
+    types.map(type => queryDns({ domain, type })),
+  );
+
+  const seen = new Set<string>();
+  const answers: DnsAnswer[] = [];
+  for (const result of results) {
+    if (result.status === 'fulfilled' && result.value.Answer) {
+      for (const answer of result.value.Answer) {
+        const key = `${answer.type}|${answer.name}|${answer.data}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          answers.push(answer);
+        }
+      }
+    }
+  }
+
+  return answers;
+}
+
 export function formatDnsRecords(answers: DnsAnswer[]): string {
   if (answers.length === 0) {
     return 'No records found';
   }
 
   const lines = answers.map((answer) => {
-    const ttl = formatTTL(answer.TTL);
-    return `${answer.name}  ${ttl}  ${answer.data}`;
+    const typeName = getTypeName(answer.type);
+    return `${typeName}\t${answer.name}\t${answer.TTL}s\t${answer.data}`;
   });
 
   return lines.join('\n');
-}
-
-function formatTTL(seconds: number): string {
-  if (seconds < 60) {
-    return `${seconds}s`;
-  }
-  if (seconds < 3600) {
-    return `${Math.floor(seconds / 60)}m${seconds % 60 ? ` ${seconds % 60}s` : ''}`;
-  }
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  return `${h}h${m ? ` ${m}m` : ''}`;
 }
