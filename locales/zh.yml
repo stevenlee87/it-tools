@@ -100,6 +100,10 @@ tools:
     title: SVG 占位符生成器
     description: 生成 svg 图像以用作应用程序中的占位符。
 
+  dns-query:
+    title: DNS 查询
+    description: 在线查询任意域名的 DNS 记录（A、AAAA、CNAME、MX、TXT、NS、SOA 等），使用 Cloudflare DNS 解析。
+
   json-to-csv:
     title: JSON 转 CSV
     description: 使用自动标头检测将JSON转换为CSV。

@@ -4,6 +4,7 @@ import { tool as basicAuthGenerator } from './basic-auth-generator';
 import { tool as byteUnitConverter } from './byte-unit-converter';
 import { tool as cssJsPrettifyMinify } from './css-js-prettify-minify';
 import { tool as curlToCode } from './curl-to-code';
+import { tool as dnsQuery } from './dns-query';
 import { tool as emailNormalizer } from './email-normalizer';
 import { tool as htmlToMarkdown } from './html-to-markdown';
 import { tool as jsonToTypes } from './json-to-types';
@@ -174,7 +175,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Network',
-    components: [ipv4SubnetCalculator, ipv4AddressConverter, ipv4RangeExpander, macAddressLookup, macAddressGenerator, ipv6UlaGenerator],
+    components: [ipv4SubnetCalculator, ipv4AddressConverter, ipv4RangeExpander, macAddressLookup, macAddressGenerator, ipv6UlaGenerator, dnsQuery],
   },
   {
     name: 'Math',

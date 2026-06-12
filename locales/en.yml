@@ -101,6 +101,10 @@ tools:
     title: SVG placeholder generator
     description: Generate svg images to use as a placeholder in your applications.
 
+  dns-query:
+    title: DNS Query
+    description: Query DNS records (A, AAAA, CNAME, MX, TXT, NS, SOA, ...) for any domain name online using Cloudflare DNS.
+
   json-to-csv:
     title: JSON to CSV
     description: Convert JSON to CSV with automatic header detection.
