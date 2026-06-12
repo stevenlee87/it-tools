@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { useCopy } from '@/composable/copy';
-import { queryAllDns, formatDnsRecords, getTypeName, defaultRecordTypes } from './dns-query.service';
-import type { DnsAnswer } from './dns-query.service';
+import { queryAllDns, queryWhois, formatDnsRecords, getTypeName, defaultRecordTypes } from './dns-query.service';
+import type { DnsAnswer, WhoisInfo } from './dns-query.service';
 
 const domain = ref('example.com');
 const isLoading = ref(false);
 const errorMessage = ref('');
 const answers = ref<DnsAnswer[]>([]);
+const whoisInfo = ref<WhoisInfo | null>(null);
+const whoisLoading = ref(false);
 const hasQueried = ref(false);
 
 const domainValidationRules = [
@@ -46,6 +48,7 @@ async function doQuery() {
   isLoading.value = true;
   errorMessage.value = '';
   answers.value = [];
+  whoisInfo.value = null;
   hasQueried.value = true;
 
   try {
@@ -56,6 +59,17 @@ async function doQuery() {
   }
   finally {
     isLoading.value = false;
+  }
+
+  whoisLoading.value = true;
+  try {
+    whoisInfo.value = await queryWhois(trimmed);
+  }
+  catch {
+    // WHOIS is best-effort
+  }
+  finally {
+    whoisLoading.value = false;
   }
 }
 </script>
@@ -111,7 +125,7 @@ async function doQuery() {
           </n-table>
         </div>
 
-        <div flex justify-center>
+        <div flex justify-center mb-5>
           <c-button @click="copy()">
             Copy results
           </c-button>
@@ -123,6 +137,80 @@ async function doQuery() {
           No records found for this domain.
         </div>
       </c-card>
+    </div>
+
+    <div v-if="whoisLoading" mt-2 op-60 italic>
+      Loading WHOIS info...
+    </div>
+
+    <div v-if="whoisInfo" mt-2>
+      <n-divider />
+      <div mb-3 font-bold text-16px>
+        WHOIS
+      </div>
+
+      <n-table :bordered="true" :single-line="false" size="small">
+        <tbody>
+          <tr>
+            <td font-500 w-180px>
+              Domain Name
+            </td>
+            <td>{{ whoisInfo.domainName }}</td>
+          </tr>
+          <tr v-if="whoisInfo.registrar">
+            <td font-500>
+              Registrar
+            </td>
+            <td>{{ whoisInfo.registrar }}</td>
+          </tr>
+          <tr v-if="whoisInfo.registrationDate">
+            <td font-500>
+              Registration Date
+            </td>
+            <td>{{ whoisInfo.registrationDate }}</td>
+          </tr>
+          <tr v-if="whoisInfo.expirationDate">
+            <td font-500>
+              Expiration Date
+            </td>
+            <td>{{ whoisInfo.expirationDate }}</td>
+          </tr>
+          <tr v-if="whoisInfo.updatedDate">
+            <td font-500>
+              Updated Date
+            </td>
+            <td>{{ whoisInfo.updatedDate }}</td>
+          </tr>
+          <tr v-if="whoisInfo.registrantCountry">
+            <td font-500>
+              Registrant
+            </td>
+            <td>{{ [whoisInfo.registrantProvince, whoisInfo.registrantCountry].filter(Boolean).join(', ') }}</td>
+          </tr>
+          <tr v-if="whoisInfo.nameServers.length > 0">
+            <td font-500>
+              Name Servers
+            </td>
+            <td>{{ whoisInfo.nameServers.join(', ') }}</td>
+          </tr>
+          <tr v-if="whoisInfo.status.length > 0">
+            <td font-500>
+              Domain Status
+            </td>
+            <td>
+              <div v-for="s in whoisInfo.status" :key="s">
+                {{ s }}
+              </div>
+            </td>
+          </tr>
+          <tr v-if="whoisInfo.dnssec">
+            <td font-500>
+              DNSSEC
+            </td>
+            <td>{{ whoisInfo.dnssec }}</td>
+          </tr>
+        </tbody>
+      </n-table>
     </div>
   </div>
 </template>

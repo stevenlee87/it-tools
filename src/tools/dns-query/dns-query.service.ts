@@ -88,3 +88,79 @@ export function formatDnsRecords(answers: DnsAnswer[]): string {
 
   return lines.join('\n');
 }
+
+export interface WhoisInfo {
+  domainName: string
+  registrar: string
+  registrationDate: string
+  expirationDate: string
+  updatedDate: string
+  status: string[]
+  nameServers: string[]
+  dnssec: string
+  registrantCountry: string
+  registrantProvince: string
+}
+
+export async function queryWhois(domain: string): Promise<WhoisInfo | null> {
+  try {
+    const response = await fetch(`https://rdap.org/domain/${encodeURIComponent(domain)}`);
+    if (!response.ok) {
+      return null;
+    }
+    const data = await response.json();
+    return parseRdapResponse(data, domain);
+  }
+  catch {
+    return null;
+  }
+}
+
+function parseRdapResponse(data: any, domain: string): WhoisInfo {
+  const events = data.events ?? [];
+  const findEvent = (action: string) => {
+    const ev = events.find((e: any) => e.eventAction === action);
+    return ev?.eventDate ? formatDate(ev.eventDate) : '';
+  };
+
+  const registrarEntity = (data.entities ?? []).find((e: any) => e.roles?.includes('registrar'));
+  const registrar = registrarEntity?.vcardArray?.[1]
+    ?.find((v: any) => v[0] === 'fn')?.[3] ?? '';
+
+  const registrantEntity = (data.entities ?? []).find((e: any) => e.roles?.includes('registrant'));
+  const registrantVcard = registrantEntity?.vcardArray?.[1] ?? [];
+  const adr = registrantVcard.find((v: any) => v[0] === 'adr');
+  const registrantCountry = adr?.[1]?.cc ?? '';
+  const registrantProvince = adr?.[3]?.[4] ?? '';
+
+  const nameServers = (data.nameservers ?? [])
+    .map((ns: any) => (ns.ldhName ?? '').replace(/\.$/, ''))
+    .filter(Boolean);
+
+  const status = (data.status ?? []).map((s: string) => s.replace(/ /g, ''));
+
+  const dnssec = data.secureDNS?.delegationSigned ? 'signed' : 'unsigned';
+
+  return {
+    domainName: data.ldhName ?? domain,
+    registrar,
+    registrationDate: findEvent('registration'),
+    expirationDate: findEvent('expiration'),
+    updatedDate: findEvent('last changed'),
+    status,
+    nameServers,
+    dnssec,
+    registrantCountry,
+    registrantProvince,
+  };
+}
+
+function formatDate(isoDate: string): string {
+  try {
+    const d = new Date(isoDate);
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`;
+  }
+  catch {
+    return isoDate;
+  }
+}
