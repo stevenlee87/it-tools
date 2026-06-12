@@ -98,7 +98,7 @@ import { tool as yamlViewer } from './yaml-viewer';
 export const toolsByCategory: ToolCategory[] = [
   {
     name: 'Crypto',
-    components: [tokenGenerator, hashText, bcrypt, uuidGenerator, ulidGenerator, cypher, bip39, hmacGenerator, rsaKeyPairGenerator, passwordStrengthAnalyser, pdfSignatureChecker, dnsQuery, sslCertificateParser, byteUnitConverter, cssJsPrettifyMinify, htmlToMarkdown, jsonToTypes, curlToCode],
+    components: [tokenGenerator, hashText, bcrypt, uuidGenerator, ulidGenerator, cypher, bip39, hmacGenerator, rsaKeyPairGenerator, passwordStrengthAnalyser, pdfSignatureChecker],
   },
   {
     name: 'Converter',
@@ -128,6 +128,13 @@ export const toolsByCategory: ToolCategory[] = [
   {
     name: 'Web',
     components: [
+      dnsQuery,
+      sslCertificateParser,
+      byteUnitConverter,
+      cssJsPrettifyMinify,
+      htmlToMarkdown,
+      jsonToTypes,
+      curlToCode,
       urlEncoder,
       htmlEntities,
       urlParser,
