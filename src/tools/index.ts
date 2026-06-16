@@ -61,6 +61,7 @@ import { tool as chmodCalculator } from './chmod-calculator';
 import { tool as chronometer } from './chronometer';
 import { tool as colorConverter } from './color-converter';
 import { tool as crontabGenerator } from './crontab-generator';
+import { tool as dateCalculator } from './date-calculator';
 import { tool as dateTimeConverter } from './date-time-converter';
 import { tool as deviceInformation } from './device-information';
 import { tool as cypher } from './encryption';
@@ -127,6 +128,7 @@ export const toolsByCategory: ToolCategory[] = [
     name: 'Converter',
     components: [
       byteUnitConverter,
+      dateCalculator,
       dateTimeConverter,
       baseConverter,
       romanNumeralConverter,

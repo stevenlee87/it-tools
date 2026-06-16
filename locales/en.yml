@@ -297,6 +297,25 @@ tools:
     title: JWT parser
     description: Parse and decode your JSON Web Token (jwt) and display its content.
 
+  date-calculator:
+    title: Date calculator
+    description: Add or subtract days from a date, or calculate the number of days between two dates.
+    offset:
+      sectionTitle: Date after / before N days
+      baseDate: Start date
+      days: Days offset
+      daysHint: Use a negative number to go backwards
+      resultLabel: Result date
+    diff:
+      sectionTitle: Days between two dates
+      startDate: Start date
+      targetDate: Target date
+      resultLabel: Difference
+      dayUnit: days
+      directionAfter: Target date is after the start date
+      directionBefore: Target date is before the start date
+      directionSame: Same date
+
   date-converter:
     title: Date-time converter
     description: Convert date and time into the various different formats

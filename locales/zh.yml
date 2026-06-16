@@ -293,6 +293,25 @@ tools:
     title: JWT 解析器
     description: 解析和解码JSON Web Token（jwt）并显示其内容。
 
+  date-calculator:
+    title: 日期计算器
+    description: 推算几天前/后的日期，或计算两个日期之间相差的天数。
+    offset:
+      sectionTitle: 推算几天前 / 后的日期
+      baseDate: 起始日期
+      days: 偏移天数
+      daysHint: 输入负数则往前推算
+      resultLabel: 结果日期
+    diff:
+      sectionTitle: 计算两个日期相差
+      startDate: 开始日期
+      targetDate: 目标日期
+      resultLabel: 相差
+      dayUnit: 天
+      directionAfter: 目标日期比起始日期晚
+      directionBefore: 目标日期比起始日期早
+      directionSame: 两个日期为同一天
+
   date-converter:
     title: 日期时间转换器
     description: 将日期和时间转换为各种不同的格式
