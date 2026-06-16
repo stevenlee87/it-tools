@@ -137,7 +137,7 @@ function parseRdapResponse(data: any, domain: string): WhoisInfo {
     .map((ns: any) => (ns.ldhName ?? '').replace(/\.$/, ''))
     .filter(Boolean);
 
-  const status = (data.status ?? []).map((s: string) => s.replace(/ /g, ''));
+  const status = (data.status ?? []).map((s: string) => s.replaceAll(' ', ''));
 
   const dnssec = data.secureDNS?.delegationSigned ? 'signed' : 'unsigned';
 

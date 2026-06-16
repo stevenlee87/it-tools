@@ -32,7 +32,7 @@ if ('serviceWorker' in navigator) {
       return;
     }
     refreshing = true;
-    window.location.reload();
+    globalThis.location.reload();
   });
 }
 

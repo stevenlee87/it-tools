@@ -108,9 +108,9 @@ async function doQuery() {
           <n-table :bordered="true" :single-line="false" size="small">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>TTL</th>
-                <th>Data</th>
+                <th scope="col">Name</th>
+                <th scope="col">TTL</th>
+                <th scope="col">Data</th>
               </tr>
             </thead>
             <tbody>
